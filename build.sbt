@@ -309,6 +309,20 @@ lazy val noop = project
     libraryDependencies ++= Seq()
     )
 
+lazy val xray = project
+  .in(file("modules/xray"))
+  .dependsOn(coreJVM)
+  .enablePlugins(AutomateHeaderPlugin)
+  .settings(commonSettings)
+  .settings(
+    name        := "natchez-xray",
+    description := "AWS X-Ray bindings implementation",
+    libraryDependencies ++= Seq(
+      "io.circe"          %%% "circe-core"      % "0.14.1",
+      "co.fs2"            %%% "fs2-io"          % "3.2.0"
+    )
+  )
+
 lazy val mock = project
   .in(file("modules/mock"))
   .dependsOn(coreJVM)
