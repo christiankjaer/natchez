@@ -309,9 +309,9 @@ lazy val noop = project
     libraryDependencies ++= Seq()
     )
 
-lazy val xray = project
+lazy val xray = crossProject(JSPlatform, JVMPlatform)
   .in(file("modules/xray"))
-  .dependsOn(coreJVM)
+  .dependsOn(core)
   .enablePlugins(AutomateHeaderPlugin)
   .settings(commonSettings)
   .settings(
@@ -321,6 +321,11 @@ lazy val xray = project
       "io.circe"          %%% "circe-core"      % "0.14.1",
       "co.fs2"            %%% "fs2-io"          % "3.2.0",
     )
+  )
+  .jsSettings(
+    Test / scalaJSStage := FastOptStage,
+    jsEnv := new org.scalajs.jsenv.nodejs.NodeJSEnv(),
+    scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
   )
 
 lazy val mock = project
